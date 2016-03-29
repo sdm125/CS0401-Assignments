@@ -32,11 +32,15 @@ public class Quiz {
 			questionList.add(new Question(questionText));
 			line = questionList.get(questionCounter++).getLine();
 		}
-
+		/*
+			Assign userAnswers an array the same size as questionList. 
+			That way there will be an answer for every question.
+		*/
 		userAnswers = new int[questionList.size()];
 
 		System.out.println("Welcome to the Quiz Program! Good Luck!\n");
 
+		// Loop through questionList to print out all the question and answer lists.
 		for(int i = 0; i < questionList.size(); i++){
 			answerNum = 0;
 			System.out.println("Question " + (questionNum++) + ":");
@@ -46,6 +50,10 @@ public class Quiz {
 				System.out.println((answerNum++) + ": " + answer);
 			}
 			System.out.println();
+			/*
+				Loop answer prompt until int is inputted greater than 0 
+				and within the length of the answer list.
+			*/ 
 			do{
 				System.out.print("Your answer? (enter a number): ");
 				userAnswer = userInput.nextInt();
@@ -57,6 +65,7 @@ public class Quiz {
 		System.out.println("Thanks for your answers!");
 		System.out.println("Here are your results:\n");
 
+		// Looop through question and answer results. Keep tally of correctly answered questions.
 		for(int i = 0; i < questionList.size(); i++){
 			System.out.println("Question: " + questionList.get(i).getQuestion());
 			System.out.println("Answer: " + questionList.get(i).getAnswerList()[questionList.get(i).getAnswer()]);
@@ -79,7 +88,7 @@ public class Quiz {
 		System.out.println("\tRight: " + right);
 		System.out.println("\tWrong: " + wrong);
 		System.out.println("\tPct: " + df.format((double) right / (double) questionList.size()) + "\n");
-
+		// Print cumulative stats.
 		System.out.println("Here are some cumulative statistics:");
 		for(int i = 0; i < questionList.size(); i++){
 			System.out.println("Question: " + questionList.get(i).getQuestion());
@@ -87,7 +96,7 @@ public class Quiz {
 			System.out.println("Times Correct: " + questionList.get(i).getTimesCorrect());
 			System.out.println("Percent Correct: " + df.format(questionList.get(i).getPercentCorrect()));
 		}
-
+		// Determine hardest and easiest question by comparing percent correct instance variables.
 		Question easiest = questionList.get(0);
 		Question hardest = questionList.get(0);
 		for(int i = 0; i < questionList.size(); i++){
@@ -98,7 +107,7 @@ public class Quiz {
 				hardest = questionList.get(i);
 			}
 		}
-
+		// Print results.
 		System.out.println("\nEasiest Question:");
 		System.out.println("Question: " + easiest.getQuestion());
 		System.out.println("Times Tried: " + easiest.getTimesTried());
@@ -110,7 +119,7 @@ public class Quiz {
 		System.out.println("Times Tried: " + hardest.getTimesTried());
 		System.out.println("Times Correct: " + hardest.getTimesCorrect());
 		System.out.println("Percent Correct: " + df.format(hardest.getPercentCorrect()));
-
+		// Write current users quiz results to quiz text file.
 		outputFile = new PrintWriter(args[0]);
 		for(int i = 0; i < questionList.size(); i++){
 			outputFile.println(questionList.get(i).getQuestion());

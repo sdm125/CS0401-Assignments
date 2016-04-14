@@ -1,0 +1,6 @@
+Highland Park:1
+Lawrenceville:0
+Oakland:0
+South Side:0
+Shadyside:0
+North Side:0

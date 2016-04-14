@@ -16,18 +16,22 @@ public class Voter
 		hasVoted = Boolean.parseBoolean(strParts[2]);
 	}
 
+	// Returns voter id.
 	public int getId(){
 		return this.id;
 	}
 
+	// Returns voter name.
 	public String getName(){
 		return this.name;
 	}
 
+	// Returns whether user has voted or not.
 	public boolean getHasVoted(){
 		return hasVoted;
 	}
 
+	// Sets to true once user has voted.
 	public void setVoted(boolean voted)
 	{
 		this.hasVoted = voted;

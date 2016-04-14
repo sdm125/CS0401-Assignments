@@ -10,13 +10,13 @@ public class Ballot
 {
 	private JPanel panel = new JPanel();
 	private JLabel officeLabel;
-	private String[] strParts;
+	private String[] strParts;  // Holds split string.
 	private int ballotId;
 	private String office;
 	private String[] candidates;
 	private int[] votes;
 	private String vote;
-	private static int line = 1;
+	private static int line = 1; // Tracks line in ballot text file.
 
 	public Ballot(ArrayList<String> ballotFileContents)
 	{
@@ -27,6 +27,7 @@ public class Ballot
 		votes = new int[candidates.length];
 	}
 
+	// Builds ballot panel with contents from ballot.txt.
 	private void buildPanel()
 	{
 		officeLabel = new JLabel(office, SwingConstants.CENTER);
@@ -38,6 +39,7 @@ public class Ballot
 		}
 	}
 
+	// Returns built ballot panel. 
 	public JPanel getPanel()
 	{
 		buildPanel();
@@ -45,6 +47,7 @@ public class Ballot
 		return this.panel;
 	}
 
+	// Toggles ballot buttons on or off @ param toggle.
 	public void toggleBtns(String toggle)
 	{
 		Component[] components = panel.getComponents();
@@ -62,6 +65,19 @@ public class Ballot
 		}
 	}
 
+	// Resets ballot buttons text to black.
+	public void resetBtns()
+	{
+		Component[] components = panel.getComponents();
+		for(int i = 0; i < components.length; i++){
+			if(components[i] instanceof JButton){
+				JButton btn = (JButton)components[i];
+				btn.setForeground(Color.BLACK);
+			}
+		}
+	}
+
+	// Logs vote casts by user to votes array. Writes results to ballot file.
 	public void vote(String candidate)
 	{
 		for(int i = 0; i < candidates.length; i++){
@@ -71,6 +87,24 @@ public class Ballot
 		}
 		writeFile();
 	}
+
+	// Returns vote cast in ballot.
+	public String getVote()
+	{
+		return this.vote;
+	}
+
+	// Sets vote variable to ballot button ActionListener e.getActionCommand().
+	public void setVote(String candidate)
+	{
+		this.vote = candidate;
+	}
+
+	/*
+		Updates the ballotId.txt file once the user has voted. Creates a backup copy first
+		then copies the backup file to the main ballotId.txt file. Deletes the backup file
+		once it has been copied to the ballotId.txt file.
+	*/
 
 	private boolean writeFile()
 	{
@@ -90,27 +124,11 @@ public class Ballot
 		}
 	}
 
-	public String getVote()
-	{
-		return this.vote;
-	}
-
-	public void setVote(String candidate)
-	{
-		this.vote = candidate;
-	}
-
-	public void resetBtns()
-	{
-		Component[] components = panel.getComponents();
-		for(int i = 0; i < components.length; i++){
-			if(components[i] instanceof JButton){
-				JButton btn = (JButton)components[i];
-				btn.setForeground(Color.BLACK);
-			}
-		}
-	}
-
+	/*
+		Resets all ballot buttons text to black. Sets clicked ballot button text to red.
+		Calls setVotes and passes clicked ballot button e.getActionCommand().
+	*/
+	
 	private class BallotBtnListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)

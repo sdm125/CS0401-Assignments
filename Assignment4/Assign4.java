@@ -12,24 +12,27 @@ public class Assign4
 	private static ArrayList<Ballot> ballots = new ArrayList<>();
 	private static JButton login = new JButton("Login to Vote");
 	private static JButton vote = new JButton("Cast Your Vote");
-	private static int id;
+	private static int id; // Holds the voters id entered by the user
 
 	public static void main(String[] args) throws IOException
 	{
-		FileReader ballotReader = new FileReader(args[0]);
-		FileReader voterReader = new FileReader("voters.txt");
-		Window window = new Window(ballots.size());
+		FileReader ballotReader = new FileReader(args[0]); // Reads in ballots.txt from command line.
+		FileReader voterReader = new FileReader("voters.txt");	
+		Window window = new Window(ballots.size()); // Passed ballots.size() to get number of columns.
 		JPanel loginPanel = new JPanel();
 		JPanel votePanel = new JPanel();
 
+		// Create Ballot objects in ballots array.
 		for(int i = 1; i < ballotReader.getContent().size(); i++){
 			ballots.add(new Ballot(ballotReader.getContent()));
 		}
-
+		
+		// Create Voter objects in ballots array.
 		for(int i = 0; i < voterReader.getContent().size(); i++){
 			voters.add(new Voter(voterReader.getContent()));
 		}
 
+		// Add ballot JPanels to window.
 		for(int i = 0; i < ballots.size(); i++){
 			window.add(ballots.get(i).getPanel());
 		}
@@ -51,6 +54,13 @@ public class Assign4
 
 	private static class LoginBtnListener implements ActionListener
 	{
+		/*
+			Checks user entered id against voters objects. If there is a match and 
+			the user hasn't voted yet, the ballot and Cast Vote buttons are enabled.
+			If the user has already voted a message will display saying they've already
+			voted.
+		*/
+
 		public void actionPerformed(ActionEvent e)
 		{
 			String input = JOptionPane.showInputDialog("Please enter your voter id");
@@ -76,7 +86,12 @@ public class Assign4
 	}
 
 	private static class VoteBtnListener implements ActionListener
-	{
+	{	
+		/*
+			Dialog confirms user votes. The votes are recorded in the individual ballot files.
+			The ballot and Cast Vote buttons and disabled again. The users voter id has indicated
+			that they have cast their vote.
+		*/
 		public void actionPerformed(ActionEvent e)
 		{
 			int dialogResult = JOptionPane.showConfirmDialog (null, "Confirm Vote?");
@@ -100,6 +115,12 @@ public class Assign4
 			}
 		}
 	}
+
+	/*
+		Updates the voters.txt file once the user has voted. Creates a backup copy first
+		then copies the backup file to the main voters.txt file. Deletes the backup file
+		once it has been copied to the voters.txt file.
+	*/
 
 	public static boolean writeFile()
 	{
